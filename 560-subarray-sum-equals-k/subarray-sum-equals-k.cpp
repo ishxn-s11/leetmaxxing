@@ -1,27 +1,36 @@
 /*
-Better Approach 
+Optimal Approach 
 
-Generating Every Possible Subarray
-Check Sum Of Every Subarray
+Initialise Hashmap
+Store freq[0]=1
+Initialise pfx=0,cnt=0
+Traverse nums
+Add Current Element pfx+=nums[i]
+Calculate Needed Prefix need=pfx-k
+If need Exists In Hashmap => cnt+=freq[need]
+Store Current pfx As freq[pfx]++
 
-Time Complexity: O(n^2)
-Space Complexity: O(1)
+Time Complexity: O(n)
+Space Complexity: O(n)
 */
 
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
         int n=nums.size();
-        int cnt=0;
+        unordered_map<int,int>freq;
 
-        for(int i=0;i<n;i++){
-            int sum=0;
+        freq[0]=1;
 
-            for(int j=i;j<n;j++){
-                sum+=nums[j];
+        int pfx=0,cnt=0;
 
-                if(sum==k) cnt++;
-            }
+        for(int i:nums){
+            pfx+=i;
+            int need=pfx-k;
+
+            if(freq.find(need)!=freq.end()) cnt+=freq[need];
+
+            freq[pfx]++;
         }
 
         return cnt;
