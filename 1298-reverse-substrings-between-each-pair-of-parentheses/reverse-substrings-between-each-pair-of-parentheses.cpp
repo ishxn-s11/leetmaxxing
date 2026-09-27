@@ -1,46 +1,49 @@
 /*
-Brute Force
+Optimal Approach Wormhole Traversal
 
-Maintain A Stack
-Traverse 
-If The Character Is A Letter Or '(' => Push
-If The Character Is ')' => Pop Until '(' Is Encountered
-Remove '(' And Push The Popped Characters Back In The Same Order Back Into The Stack.
+Instead Of Physically Reversing Substrings,
+Simulate Reversal By Changing Our Traversal Direction.
 
-Time Complexity: O(n^2)
+Mantain A Stack Of Indicess For Finding Matching Parenthesis
+Store The Indices In A Vector
+Traverse
+When A Parenthesis Is Encountered{
+    Jump To Its Matching Parenthesis
+    Reverse The Direction
+}
+When A Letter Is Encountered => Append To The ans
+
+Time Complexity: O(n)
 Space Complexity: O(n)
-
 */
 
 class Solution {
 public:
     string reverseParentheses(string s) {
-        stack<char>stk;
+        int n=s.size();
+        vector<int>vec(n);
+        stack<int>stk;
 
-        for(char i:s){
-            if(i!=')') stk.push(i);
-            else{
-                string temp;
-
-                while(stk.top()!='('){
-                    temp+=stk.top();
-                    stk.pop();
-                }
-
+        for(int i=0;i<n;i++){
+            if(s[i]=='(') stk.push(i);
+            else if(s[i]==')'){
+                int j=stk.top();
                 stk.pop();
 
-                for(char j:temp) stk.push(j);
+                vec[i]=j;
+                vec[j]=i;
             }
         }
 
         string ans;
+        int dir=1;
 
-        while(!stk.empty()){
-            ans+=stk.top();
-            stk.pop();
+        for(int i=0;i<n;i+=dir){
+            if(s[i]=='(' || s[i]==')'){
+                i=vec[i];
+                dir=-dir;
+            }else ans+=s[i];
         }
-
-        reverse(ans.begin(),ans.end());
 
         return ans;
     }
