@@ -1,21 +1,24 @@
 /*
-Brute Force 
+Optimal Approach
 
-Binary Search On Every Row 
+Eliminate The Search Space From The Extreme Edge Of The Matrix
 
-Time Complexity: O(n*log(m))
+
+Time Complexity: O(n+m)
 Space Complexity: O(1)
 */
 
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int n=matrix.size();
+        int n=matrix.size(),m=matrix[0].size();
+        int r=0,c=m-1;
 
-        for(int i=0;i<n;i++){
-            bool found=binary_search(matrix[i].begin(),matrix[i].end(),target);
-
-            if(found) return true;
+        while(r<n && c>=0){
+            
+            if(matrix[r][c]==target) return true;
+            else if(matrix[r][c]<target) r++;
+            else c--;
         }
 
         return false;
