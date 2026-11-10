@@ -1,7 +1,8 @@
 /*
-Optimal Approach-1 
+Optimal Approach-2
 
-Store Previously Calculated Results To Avoid Repeated Recursive Calls.
+Iteratively Calculate All Possible Number Of Ways
+Compare To Get Minimum
 
 Time Complexity: O(n)
 Space Complexity: O(n)
@@ -9,29 +10,21 @@ Space Complexity: O(n)
 
 class Solution {
 public:
+    int climbStairs(int n, vector<int>& costs) {
+        vector<int>dp(n+1,INT_MAX);
+        dp[0]=0;
 
-    int solve(int x,vector<int>& costs,vector<int>& dp){
+        for(int i=1;i<=n;i++){
 
-        if(x==0) return 0;
+            for (int j=1;j<=3;j++){
 
-        if(dp[x]!=-1) return dp[x];
-
-        int ans=INT_MAX;
-
-        for(int i=1;i<=3;i++){
-
-            if(x-i>=0){
-                int curr=solve(x-i,costs,dp)+costs[x-1]+i*i;
-                ans=min(ans,curr);
+                if(i-j>=0){
+                    int jumpCost=costs[i-1]+j*j;
+                    dp[i]=min(dp[i],dp[i-j]+jumpCost);
+                }
             }
         }
 
-        return dp[x]=ans;
-    }
-
-    int climbStairs(int n, vector<int>& costs) {
-        vector<int>dp(n+1,-1);
-
-        return solve(n,costs,dp);
+        return dp[n];
     }
 };
