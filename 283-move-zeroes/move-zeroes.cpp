@@ -1,27 +1,29 @@
 /*
-Brute Force
+Better Approach
 
-Create A Temporary Array
-Traverse And Store All Non-Zero Elements
-Append 0s
-Copy Back To The Original Array
+Maintain z
+Traverse nums
+If nums[i]!=0{
+    Swap With nums[z]
+    Increment z
+}
+Repeat
 
 Time Complexity: O(n)
-Space Complexity: O(n)
+Space Complexity: O(1)
 */
 
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-        vector<int>temp;
+        int z=0;
 
         for(int i=0;i<nums.size();i++){
 
-            if(nums[i]!=0) temp.push_back(nums[i]);
-        }
-
-        while(temp.size()<nums.size()) temp.push_back(0);
-
-        for(int i=0;i<nums.size();i++) nums[i]=temp[i];
+            if(nums[i]!=0){
+                swap(nums[i],nums[z]);
+                z++;
+            }
+        }        
     }
 };
