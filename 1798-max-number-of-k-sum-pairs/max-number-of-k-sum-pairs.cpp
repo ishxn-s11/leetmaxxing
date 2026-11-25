@@ -2,25 +2,28 @@ class Solution {
 public:
     int maxOperations(vector<int>& nums, int k) {
         int n=nums.size();
-        unordered_map<int,int>mpp;
+        unordered_map<int,int>mp;
 
-        for(int i:nums) mpp[i]++;
+        for(int i:nums) mp[i]++;
 
         int cnt=0;
 
         for(int i=0;i<n;i++){
 
-            if(mpp[nums[i]]<=0) continue;
+            if(mp[nums[i]]<=0) continue;
 
-            mpp[nums[i]]--;
-            int partner=k-nums[i];
-            if(mpp[partner] <= 0) {
-                mpp[nums[i]]++;
+            mp[nums[i]]--;
+            int part=k-nums[i];
+
+            if(mp[part]<=0){
+                mp[nums[i]]++;
                 continue;
             }
-            mpp[partner]--;
+
+            mp[part]--;
             cnt++;
         }
+
         return cnt;
     }
 };
